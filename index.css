@@ -7,12 +7,10 @@ body {
 
 .calendar-wrapper {
   max-width: 100%;
-  font: 100% system-ui;
 }
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  height: 60vh;
 }
 
 h1, h2 {
