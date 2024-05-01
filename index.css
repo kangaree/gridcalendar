@@ -1,3 +1,10 @@
+body {
+  margin: 0;
+  background-color: red;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .calendar-wrapper {
   max-width: 100%;
   font: 100% system-ui;
@@ -5,20 +12,38 @@
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  height: 60vh;
 }
 
-.first-day {
-  grid-column-start: 4;
-}
-
-
-.day-name {
-  background: #eee;
+h1, h2 {
+  color: gold;
+  font-family: "Liu Jian Mao Cao", cursive;
+  font-size: 10vh; 
+  text-align: center;
+  text-shadow: .03em .03em 0 black;
 }
 
 h1 {
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: serif;
+  font-size: 2vh;
   text-align: center;
 }
+
+p {
+  color: gold;
+  text-align: center;
+}
+
+.day-name {
+  background: #eee;
+  height: 2rem;
+  font-size: 2rem;
+}
+
 ol {
   list-style: none;
   margin: 0;
@@ -27,4 +52,39 @@ ol {
 }
 li {
   padding: 2px;
+  height: calc(60vh / 6);
+  border: 1px solid;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Apply styles to items in the Sunday column */
+.calendar > :nth-child(1) {
+  color: red;
+}
+.calendar > :nth-child(8) {
+  color: red;
+}
+.calendar > :nth-child(7n+13) {
+  color: red;
+}
+/* Apply styles to items in the Saturday column */
+.calendar > :nth-child(7) {
+  color: red;
+}
+.calendar > :nth-child(7n+12) {
+  color: red;
+}
+
+.prev-month {
+  grid-column: span 3;
+}
+
+.next-month {
+  grid-column: span 1;
 }
