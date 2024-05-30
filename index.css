@@ -65,24 +65,22 @@ li {
 .calendar > :nth-child(1) {
   color: red;
 }
-.calendar > :nth-child(8) {
-  color: red;
-}
-.calendar > :nth-child(7n+13) {
-  color: red;
-}
 /* Apply styles to items in the Saturday column */
 .calendar > :nth-child(7) {
   color: red;
 }
-.calendar > :nth-child(7n+12) {
+
+/* Apply styles to month start and end li's */
+.prev-month, .next-month {
   color: red;
 }
 
-.prev-month {
-  grid-column: span 3;
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
-.next-month {
-  grid-column: span 1;
+.highlight {
+  background-color: gold;
 }

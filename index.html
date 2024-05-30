@@ -1,20 +1,29 @@
 <!-- https://css-tricks.com/a-calendar-in-three-lines-of-css/ -->
 <!-- https://calendartricks.com/a-calendar-in-three-lines-of-css/ -->
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Grid Calendar</title>
   <link rel="stylesheet" href="index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=ZCOOL+QingKe+HuangYou&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <div class="calendar-wrapper">
   <header>
     <!-- Fu, Good Fortune and Blessings! -->
     <h1>福</h1>
   </header>
-  <h2>May 2024</h2>
-  <ol class="calendar">
+  <h2 id="monthHeader">Month</h2>
+  <div class="navigation-buttons">
+    <div>
+      <button id="prevMonth">Previous Month</button>
+      <button id="nextMonth">Next Month</button>
+    </div>
+  </div>
+  <ol class="calendar days-list">
     <li class="day-name">Sun</li>
     <li class="day-name">Mon</li>
     <li class="day-name">Tue</li>
@@ -23,40 +32,146 @@
     <li class="day-name">Fri</li>
     <li class="day-name">Sat</li>
     <!-- Lóng, Dragon -->
-    <li class="prev-month">龍</li>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
-    <li>7</li>
-    <li>8</li>
-    <li>9</li>
-    <li>10</li>
-    <li>11</li>
-    <li>12</li>
-    <li>13</li>
-    <li>14</li>
-    <li>15</li>
-    <li>16</li>
-    <li>17</li>
-    <li>18</li>
-    <li>19</li>
-    <li>20</li>
-    <li>21</li>
-    <li>22</li>
-    <li>23</li>
-    <li>24</li>
-    <li>25</li>
-    <li>26</li>
-    <li>27</li>
-    <li>28</li>
-    <li>29</li>
-    <li>30</li>
-    <li>31</li>
+    <li class="prev-month" id="prev-month">龍</li>
+    <li id="1">1</li>
+    <li id="2">2</li>
+    <li id="3">3</li>
+    <li id="4">4</li>
+    <li id="5">5</li>
+    <li id="6">6</li>
+    <li id="7">7</li>
+    <li id="8">8</li>
+    <li id="9">9</li>
+    <li id="10">10</li>
+    <li id="11">11</li>
+    <li id="12">12</li>
+    <li id="13">13</li>
+    <li id="14">14</li>
+    <li id="15">15</li>
+    <li id="16">16</li>
+    <li id="17">17</li>
+    <li id="18">18</li>
+    <li id="19">19</li>
+    <li id="20">20</li>
+    <li id="21">21</li>
+    <li id="22">22</li>
+    <li id="23">23</li>
+    <li id="24">24</li>
+    <li id="25">25</li>
+    <li id="26">26</li>
+    <li id="27">27</li>
+    <li id="28">28</li>
+    <li id="29">29</li>
+    <li id="30">30</li>
+    <li id="31">31</li>
     <!-- Throw some oil on it! jiā yóu! -->
-    <li class="next-month">加油</li>
+    <li class="next-month" id="next-month">加油</li>
   </ol>
   <p>CSS Grid 福 Wall Calendar</p>
 </div>
+
+<script>
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Initialize the current date
+  let currentDate = new Date(new Date().getFullYear(), new Date().getMonth());
+
+  function updateHeader() {
+    const month = monthNames[currentDate.getMonth()];
+    const year = currentDate.getFullYear();
+    document.getElementById("monthHeader").innerText = `${month} ${year}`;
+  }
+
+  document.getElementById("prevMonth").addEventListener("click", () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    updateHeader();
+    updateDays();
+  });
+
+  document.getElementById("nextMonth").addEventListener("click", () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    updateHeader();
+    updateDays();
+  });
+
+  function updateDays() {
+    const prevMonthElement = document.getElementById("prev-month");
+    const nextMonthElement = document.getElementById("next-month");
+
+    prevMonthElement.style.display = "flex";
+
+    const lastAddedStyleTag = document.querySelector("style:last-of-type");
+    if (lastAddedStyleTag) {
+      lastAddedStyleTag.remove();
+    }
+
+    // Get the number of days in the current month
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const currentDay = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    for (let i = 1; i <= 31; i++) {
+      const dayElement = document.getElementById(i.toString());
+      dayElement.classList.remove("highlight");
+    }
+
+    const days = [29, 30, 31];
+    days.forEach((day) => {
+      document.getElementById(day.toString()).style.display =
+        daysInMonth >= day ? "flex" : "none";
+    });
+
+    // Get the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = currentDate.getDay();
+
+    if (dayOfWeek === 0) {
+      prevMonthElement.style.display = "none";
+    }
+    prevMonthElement.style.gridColumn = "span " + dayOfWeek.toString();
+    nextMonthElement.style.gridColumn =
+      "span " + (7 - ((daysInMonth + dayOfWeek) % 7)).toString();
+
+    const styleTag = document.createElement("style");
+    styleTag.textContent = `
+      /* Apply styles to items in the Sunday column */
+      .calendar > li:nth-child(7n+${7 + 9 - dayOfWeek}) {
+          color: red;
+      }
+
+      /* Apply styles to items in the Saturday column */
+      .calendar > li:nth-child(7n+${7 + 8 - dayOfWeek}) {
+          color: red;
+      }
+  `;
+
+    document.head.appendChild(styleTag);
+
+    if (
+      year === currentYear &&
+      month === currentMonth &&
+      currentDay <= daysInMonth
+    ) {
+      document.getElementById(currentDay.toString()).classList.add("highlight");
+    }
+  }
+
+  // Initial update
+  updateHeader();
+  updateDays();
+</script>
